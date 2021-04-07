@@ -197,7 +197,7 @@ function run() {
             console.log(`fileName : ${inputs.fileName}`);
             console.log(`gitSha : ${inputs.gitSha}`);
             console.log(`date : ${date}`);
-            const packageName = inputs.fileName + "_" + version + "_" + inputs.gitSha.slice(0, 6) + "_" + date;
+            const packageName = inputs.fileName + "_" + version + "_" + inputs.gitSha.slice(0, 8) + "_" + date;
             core.setOutput("packageName", packageName);
         }
         catch (err) {
