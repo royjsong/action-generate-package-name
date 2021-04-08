@@ -15333,7 +15333,7 @@ function run() {
             const lines = __webpack_require__(747).readFileSync(archiveIgnorePath, 'utf-8').split('\n').filter(Boolean);
             lines.push(packageName + ".zip");
             console.log(`.achiveignore :  ${lines}`);
-            const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/' + packageName + ".zip");
+            const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/' + packageName + "-release.zip");
             const archive = archiver_1.default('zip', {
                 zlib: { level: 9 }
             });

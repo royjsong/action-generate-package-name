@@ -41,7 +41,7 @@ async function run(): Promise<void> {
         lines.push(packageName + ".zip")
         console.log(`.achiveignore :  ${lines}`)        
     
-        const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/' + packageName + ".zip")
+        const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/' + packageName + "-release.zip")
         const archive = archiver('zip', {
             zlib: {level : 9 }
         })
