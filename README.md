@@ -25,7 +25,7 @@
         gitSha: ${{ github.sha }}
 ~~~
 * output
-  - packageName : Prefix}\_{Version}\_{GitHash}\_{yyyymmdd} 의 문자열
+  - packageName : {Prefix}\_{Version}\_{GitHash}\_{yyyymmdd} 의 문자열
 
 사용 예)
 ~~~yml
