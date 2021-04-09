@@ -29,11 +29,11 @@
 
 사용 예)
 ~~~yml
-  - name: Upload full artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ccnv-virtaulkeyboard-full
-          path: |
-            ./${{steps.archive-release.outputs.packageName}}-full.zip       
+    - name: Upload full artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: ccnv-virtaulkeyboard-full
+            path: |
+              ./${{steps.archive-release.outputs.packageName}}-full.zip       
 ~~~
 
