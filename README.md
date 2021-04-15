@@ -7,7 +7,30 @@
 * 소스코드 내에 .archiveignore 파일을 읽어 압축 시 제외할 파일 목록을 획득
 * .archiveignore 파일의 파일 목록을 제외하고 소스코드 압축
 
+## 사전 세팅
+* 프로젝트 Root Dir에 .archiveignore 파일과 version.json 파일을 생성해야 함.
+* .archiveignore : 소스코드 압축 시 제외 시킬 파일 목록
 
+예)
+~~~
+README.md
+.github/**
+.archiveignore
+version.json
+src/plugins/ccos-automata/3rdparty/selvasai/kbdsdk/dict/*
+src/plugins/ccos-handwriting/selvasai-hwr/3rdparty/hwrsdk/dict/*
+~~~
+
+* version.json : 소스코드 버전 파일 (수동으로 변경 필요)
+
+예)
+~~~
+{
+    "major" : "1",
+    "minor" : "0",
+    "patch" : "0"
+}
+~~~
 
 ## Action 사용 방법
 * Github action workflows yml 파일에 아래와 같이 사용
