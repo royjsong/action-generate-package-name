@@ -10,7 +10,7 @@ async function run(): Promise<void> {
         const fileName = core.getInput(Inputs.FILE_NAME, {required: true})
         const gitSha = core.getInput(Inputs.GIT_SHA, {required: false})
         const version = core.getInput(Inputs.VERSION, {required: false})
-        const ignorefiles = core.getInput(Inputs.IGNORE_FILES, {required: false})
+        const ignorefilesJson = core.getInput(Inputs.IGNORE_FILES_JSON, {required: false})
 
  
         // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
@@ -25,10 +25,14 @@ async function run(): Promise<void> {
         // const data = fs.readFileSync(versionFilePath)
         // let versionJson = JSON.parse(data.toString())        
         // const version  = versionJson.major + "." + versionJson.minor + "." + versionJson.patch
+
+        var ignorefiles = JSON.parse(ignorefilesJson)
+
         const date = dataFormat(new Date(), "yyyymmdd")        
         console.log(`fileName : ${fileName}`)
         console.log(`version : ${version}`)
         console.log(`gitSha : ${gitSha}`)
+        console.log(`ignorefilesJson : ${ignorefilesJson}`)
         console.log(`ignorefiles : ${ignorefiles}`)
         console.log(`date : ${date}`)
 

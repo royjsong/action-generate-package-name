@@ -1,6 +1,6 @@
 export enum Inputs {
     FILE_NAME = 'fileName',     
     VERSION = 'version',
-    IGNORE_FILES = "ignorefiles",
+    IGNORE_FILES_JSON = "ignorefilesJson",
     GIT_SHA = 'gitSha'
 }
