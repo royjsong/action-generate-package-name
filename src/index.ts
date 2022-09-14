@@ -54,11 +54,11 @@ async function run(): Promise<void> {
         if (!fs.existsSync(packagePath)) {            
             fs.mkdirSync(packagePath, {recursive: true})
         }
-        
+
         const filepath = packagePath + "/" + packageName + "-release.zip"
 
         var ignorefileArray: string[] = ignorefiles.split(",")
-        ignorefileArray.push("package")
+        ignorefileArray.push("package/**")
 
         const output = fs.createWriteStream(filepath)
         console.log(`filepath :  ${filepath}`)   
