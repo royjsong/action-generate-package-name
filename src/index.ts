@@ -9,7 +9,7 @@ async function run(): Promise<void> {
 
         const fileName = core.getInput(Inputs.FILE_NAME, {required: true})        
         const version = core.getInput(Inputs.VERSION, {required: false})
-        const ignorefilesJson = core.getInput(Inputs.IGNORE_FILES_JSON, {required: false})
+        const ignorefiles = core.getInput(Inputs.IGNORE_FILES, {required: false})
         const gitSha = core.getInput(Inputs.GIT_SHA, {required: false})
 
         // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
@@ -25,14 +25,14 @@ async function run(): Promise<void> {
         // let versionJson = JSON.parse(data.toString())        
         // const version  = versionJson.major + "." + versionJson.minor + "." + versionJson.patch
 
-        var ignorefiles = JSON.parse(ignorefilesJson)
+        var ignorefileArray: string[] = ignorefiles.split(",")
 
         const date = dataFormat(new Date(), "yyyymmdd")        
         console.log(`fileName : ${fileName}`)
         console.log(`version : ${version}`)
         console.log(`gitSha : ${gitSha}`)
-        console.log(`ignorefilesJson : ${ignorefilesJson}`)
-        console.log(`ignorefiles : ${ignorefiles}`)
+        console.log(`ignorefilesJson : ${ignorefiles}`)
+        console.log(`ignorefileArray : ${ignorefileArray}`)
         console.log(`date : ${date}`)
 
         const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date
@@ -52,6 +52,7 @@ async function run(): Promise<void> {
         // console.log(`.achiveignore :  ${lines}`)        
     
 
+
         const packagePath = process.env['GITHUB_WORKSPACE']
         // if (!fs.existsSync(packagePath)) {            
         //     fs.mkdirSync(packagePath, {recursive: true})
@@ -65,13 +66,13 @@ async function run(): Promise<void> {
         archive.pipe(output);
         archive.glob('**/*', {
             cwd: process.env['GITHUB_WORKSPACE'],
-            // ignore: ignorefiles,
-            // dot: true,
+            ignore: ignorefileArray,
+            dot: true,
         });
         archive.finalize();
 
-        core.setOutput('packageName', packagePath);
-        core.setOutput('packagePath', packageName);
+        core.setOutput('packageName', packageName);
+        core.setOutput('packagePath', packagePath);
     } catch (err) {
         core.setFailed((err as Error).message)
     }

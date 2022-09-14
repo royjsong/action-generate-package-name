@@ -1,7 +1,6 @@
 export interface InputFields {
     fileName : String,
     version: String,
-    ignorefilesJson: String,
-    gitSha: String,
-    outputPath: String
+    ignorefiles: String,
+    gitSha: String
 }

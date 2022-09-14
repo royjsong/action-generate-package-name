@@ -16930,7 +16930,7 @@ function run() {
         try {
             const fileName = core.getInput(constants_1.Inputs.FILE_NAME, { required: true });
             const version = core.getInput(constants_1.Inputs.VERSION, { required: false });
-            const ignorefilesJson = core.getInput(constants_1.Inputs.IGNORE_FILES_JSON, { required: false });
+            const ignorefiles = core.getInput(constants_1.Inputs.IGNORE_FILES, { required: false });
             const gitSha = core.getInput(constants_1.Inputs.GIT_SHA, { required: false });
             // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
             // try {
@@ -16944,13 +16944,13 @@ function run() {
             // const data = fs.readFileSync(versionFilePath)
             // let versionJson = JSON.parse(data.toString())        
             // const version  = versionJson.major + "." + versionJson.minor + "." + versionJson.patch
-            var ignorefiles = JSON.parse(ignorefilesJson);
+            var ignorefileArray = ignorefiles.split(",");
             const date = (0, dateformat_1.default)(new Date(), "yyyymmdd");
             console.log(`fileName : ${fileName}`);
             console.log(`version : ${version}`);
             console.log(`gitSha : ${gitSha}`);
-            console.log(`ignorefilesJson : ${ignorefilesJson}`);
-            console.log(`ignorefiles : ${ignorefiles}`);
+            console.log(`ignorefilesJson : ${ignorefiles}`);
+            console.log(`ignorefileArray : ${ignorefileArray}`);
             console.log(`date : ${date}`);
             const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date;
             console.log(`packageName : ${packageName}`);
@@ -16978,12 +16978,12 @@ function run() {
             archive.pipe(output);
             archive.glob('**/*', {
                 cwd: process.env['GITHUB_WORKSPACE'],
-                // ignore: ignorefiles,
-                // dot: true,
+                ignore: ignorefileArray,
+                dot: true,
             });
             archive.finalize();
-            core.setOutput('packageName', packagePath);
-            core.setOutput('packagePath', packageName);
+            core.setOutput('packageName', packageName);
+            core.setOutput('packagePath', packagePath);
         }
         catch (err) {
             core.setFailed(err.message);
@@ -23021,9 +23021,8 @@ var Inputs;
 (function (Inputs) {
     Inputs["FILE_NAME"] = "fileName";
     Inputs["VERSION"] = "version";
-    Inputs["IGNORE_FILES_JSON"] = "ignorefilesJson";
+    Inputs["IGNORE_FILES"] = "ignorefiles";
     Inputs["GIT_SHA"] = "gitSha";
-    Inputs["OUTPUT_PATH"] = "outputPath";
 })(Inputs = exports.Inputs || (exports.Inputs = {}));
 
 
