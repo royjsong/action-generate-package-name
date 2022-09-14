@@ -50,14 +50,15 @@ async function run(): Promise<void> {
     
 
 
-        const packagePath = process.env['GITHUB_WORKSPACE']
-        // if (!fs.existsSync(packagePath)) {            
-        //     fs.mkdirSync(packagePath, {recursive: true})
-        // }
+        const packagePath = process.env['GITHUB_WORKSPACE'] + "/package"
+        if (!fs.existsSync(packagePath)) {            
+            fs.mkdirSync(packagePath, {recursive: true})
+        }
+        
         const filepath = packagePath + "/" + packageName + "-release.zip"
 
         var ignorefileArray: string[] = ignorefiles.split(",")
-        ignorefileArray.push(filepath)
+        ignorefileArray.push("package")
 
         const output = fs.createWriteStream(filepath)
         console.log(`filepath :  ${filepath}`)   
