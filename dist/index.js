@@ -16944,14 +16944,11 @@ function run() {
             // const data = fs.readFileSync(versionFilePath)
             // let versionJson = JSON.parse(data.toString())        
             // const version  = versionJson.major + "." + versionJson.minor + "." + versionJson.patch
-            var ignorefileArray = ignorefiles.split(",");
             const date = (0, dateformat_1.default)(new Date(), "yyyymmdd");
             console.log(`fileName : ${fileName}`);
             console.log(`version : ${version}`);
             console.log(`gitSha : ${gitSha}`);
             console.log(`ignorefilesJson : ${ignorefiles}`);
-            console.log(`ignorefileArray[0] : ${ignorefileArray[0]}`);
-            console.log(`ignorefileArray[1] : ${ignorefileArray[1]}`);
             console.log(`date : ${date}`);
             const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date;
             console.log(`packageName : ${packageName}`);
@@ -16971,6 +16968,8 @@ function run() {
             //     fs.mkdirSync(packagePath, {recursive: true})
             // }
             const filepath = packagePath + "/" + packageName + "-release.zip";
+            var ignorefileArray = ignorefiles.split(",");
+            ignorefileArray.push(filepath);
             const output = fs.createWriteStream(filepath);
             console.log(`filepath :  ${filepath}`);
             const archive = (0, archiver_1.default)('zip', {
