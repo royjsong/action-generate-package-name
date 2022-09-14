@@ -16966,14 +16966,14 @@ function run() {
             // const lines: string[] = require('fs').readFileSync(archiveIgnorePath, 'utf-8').split('\n').filter(Boolean);
             // lines.push(packageName + ".zip")
             // console.log(`.achiveignore :  ${lines}`)        
-            console.log(`process.env['GITHUB_REPOSITORY'] :  ${process.env['GITHUB_REPOSITORY']}`);
-            const output = fs.createWriteStream(process.env['GITHUB_REPOSITORY'] + '/' + packageName + "-release.zip");
+            console.log(`process.env['GITHUB_WORKSPACE'] :  ${process.env['GITHUB_WORKSPACE']}`);
+            const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/package/' + packageName + "-release.zip");
             const archive = (0, archiver_1.default)('zip', {
                 zlib: { level: 9 }
             });
             archive.pipe(output);
             archive.glob('**/*', {
-                cwd: process.env['GITHUB_REPOSITORY'],
+                cwd: process.env['GITHUB_REPOSITORY'] + "/package/",
                 ignore: ignorefiles,
                 dot: true,
             });

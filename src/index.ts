@@ -54,14 +54,14 @@ async function run(): Promise<void> {
         // console.log(`.achiveignore :  ${lines}`)        
     
 
-        console.log(`process.env['GITHUB_REPOSITORY'] :  ${process.env['GITHUB_REPOSITORY']}`)        
-        const output = fs.createWriteStream(process.env['GITHUB_REPOSITORY'] + '/' + packageName + "-release.zip")
+        console.log(`process.env['GITHUB_WORKSPACE'] :  ${process.env['GITHUB_WORKSPACE']}`)        
+        const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/package/' + packageName + "-release.zip")
         const archive = archiver('zip', {
             zlib: {level : 9 }
         })
         archive.pipe(output);
         archive.glob('**/*', {
-            cwd: process.env['GITHUB_REPOSITORY'],
+            cwd: process.env['GITHUB_REPOSITORY'] + "/package/",
             ignore: ignorefiles,
             dot: true,
         });
