@@ -56,7 +56,7 @@ async function run(): Promise<void> {
         // if (!fs.existsSync(packagePath)) {            
         //     fs.mkdirSync(packagePath, {recursive: true})
         // }
-        const filepath = packagePath + packageName + "-release.zip"
+        const filepath = packagePath + "/" + packageName + "-release.zip"
         const output = fs.createWriteStream(filepath)
         console.log(`filepath :  ${filepath}`)   
         const archive = archiver('zip', {
