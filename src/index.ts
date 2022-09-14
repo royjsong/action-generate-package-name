@@ -63,7 +63,7 @@ async function run(): Promise<void> {
         })
         archive.pipe(output);
         archive.glob('**/*', {
-            cwd: packagePath,
+            cwd: process.env['GITHUB_WORKSPACE'],
             ignore: ignorefiles,
             dot: true,
         });
