@@ -16969,7 +16969,7 @@ function run() {
             }
             const filepath = packagePath + "/" + packageName + "-release.zip";
             var ignorefileArray = ignorefiles.split(",");
-            ignorefileArray.push("package/**");
+            ignorefileArray.push("package/*");
             const output = fs.createWriteStream(filepath);
             console.log(`filepath :  ${filepath}`);
             const archive = (0, archiver_1.default)('zip', {
@@ -16979,7 +16979,6 @@ function run() {
             archive.glob('**/*', {
                 cwd: process.env['GITHUB_WORKSPACE'],
                 ignore: ignorefileArray,
-                // dot: true,
             });
             archive.finalize();
             core.setOutput('packageName', packageName);
