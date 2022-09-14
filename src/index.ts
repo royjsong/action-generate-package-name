@@ -67,7 +67,7 @@ async function run(): Promise<void> {
         });
         archive.finalize();
     } catch (err) {
-        core.setFailed(err.message)
+        core.setFailed((err as Error).message)
     }
 }
 
