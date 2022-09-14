@@ -16950,7 +16950,8 @@ function run() {
             console.log(`version : ${version}`);
             console.log(`gitSha : ${gitSha}`);
             console.log(`ignorefilesJson : ${ignorefiles}`);
-            console.log(`ignorefileArray : ${ignorefileArray}`);
+            console.log(`ignorefileArray[0] : ${ignorefileArray[0]}`);
+            console.log(`ignorefileArray[1] : ${ignorefileArray[1]}`);
             console.log(`date : ${date}`);
             const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date;
             console.log(`packageName : ${packageName}`);
@@ -16979,7 +16980,7 @@ function run() {
             archive.glob('**/*', {
                 cwd: process.env['GITHUB_WORKSPACE'],
                 ignore: ignorefileArray,
-                dot: true,
+                // dot: true,
             });
             archive.finalize();
             core.setOutput('packageName', packageName);

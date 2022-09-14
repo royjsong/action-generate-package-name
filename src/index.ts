@@ -32,7 +32,8 @@ async function run(): Promise<void> {
         console.log(`version : ${version}`)
         console.log(`gitSha : ${gitSha}`)
         console.log(`ignorefilesJson : ${ignorefiles}`)
-        console.log(`ignorefileArray : ${ignorefileArray}`)
+        console.log(`ignorefileArray[0] : ${ignorefileArray[0]}`)
+        console.log(`ignorefileArray[1] : ${ignorefileArray[1]}`)
         console.log(`date : ${date}`)
 
         const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date
@@ -67,7 +68,7 @@ async function run(): Promise<void> {
         archive.glob('**/*', {
             cwd: process.env['GITHUB_WORKSPACE'],
             ignore: ignorefileArray,
-            dot: true,
+            // dot: true,
         });
         archive.finalize();
 
