@@ -16932,6 +16932,7 @@ function run() {
             const gitSha = core.getInput(constants_1.Inputs.GIT_SHA, { required: false });
             const version = core.getInput(constants_1.Inputs.VERSION, { required: false });
             const ignorefilesJson = core.getInput(constants_1.Inputs.IGNORE_FILES_JSON, { required: false });
+            const outputPath = core.getInput(constants_1.Inputs.OUTPUT_PATH, { required: false });
             // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
             // try {
             // if (fs.existsSync(versionFilePath)) {
@@ -16952,6 +16953,7 @@ function run() {
             console.log(`ignorefilesJson : ${ignorefilesJson}`);
             console.log(`ignorefiles : ${ignorefiles}`);
             console.log(`date : ${date}`);
+            console.log(`outputPath : ${outputPath}`);
             const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date;
             console.log(`packageName : ${packageName}`);
             core.setOutput("packageName", packageName);
@@ -16966,14 +16968,16 @@ function run() {
             // const lines: string[] = require('fs').readFileSync(archiveIgnorePath, 'utf-8').split('\n').filter(Boolean);
             // lines.push(packageName + ".zip")
             // console.log(`.achiveignore :  ${lines}`)        
-            console.log(`process.env['GITHUB_WORKSPACE'] :  ${process.env['GITHUB_WORKSPACE']}`);
-            const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/package/' + packageName + "-release.zip");
+            if (!fs.existsSync(outputPath)) {
+                fs.mkdirSync(outputPath, { recursive: true });
+            }
+            const output = fs.createWriteStream(outputPath + packageName + "-release.zip");
             const archive = (0, archiver_1.default)('zip', {
                 zlib: { level: 9 }
             });
             archive.pipe(output);
             archive.glob('**/*', {
-                cwd: process.env['GITHUB_REPOSITORY'] + "/package/",
+                cwd: outputPath,
                 ignore: ignorefiles,
                 dot: true,
             });
@@ -23017,6 +23021,7 @@ var Inputs;
     Inputs["VERSION"] = "version";
     Inputs["IGNORE_FILES_JSON"] = "ignorefilesJson";
     Inputs["GIT_SHA"] = "gitSha";
+    Inputs["OUTPUT_PATH"] = "outputPath";
 })(Inputs = exports.Inputs || (exports.Inputs = {}));
 
 

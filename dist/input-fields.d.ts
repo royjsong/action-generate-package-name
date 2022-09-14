@@ -3,4 +3,5 @@ export interface InputFields {
     version: String;
     ignorefilesJson: String;
     gitSha: String;
+    outputPath: String;
 }

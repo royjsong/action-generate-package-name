@@ -11,6 +11,7 @@ async function run(): Promise<void> {
         const gitSha = core.getInput(Inputs.GIT_SHA, {required: false})
         const version = core.getInput(Inputs.VERSION, {required: false})
         const ignorefilesJson = core.getInput(Inputs.IGNORE_FILES_JSON, {required: false})
+        const outputPath = core.getInput(Inputs.OUTPUT_PATH, {required: false})
 
  
         // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
@@ -35,10 +36,11 @@ async function run(): Promise<void> {
         console.log(`ignorefilesJson : ${ignorefilesJson}`)
         console.log(`ignorefiles : ${ignorefiles}`)
         console.log(`date : ${date}`)
+        console.log(`outputPath : ${outputPath}`)
 
         const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date
         console.log(`packageName : ${packageName}`)
-        core.setOutput("packageName", packageName);
+        core.setOutput("packageName", packageName)
 
         // const archiveIgnorePath = process.env['GITHUB_WORKSPACE'] + '/.archiveignore'
         // try {
@@ -54,14 +56,17 @@ async function run(): Promise<void> {
         // console.log(`.achiveignore :  ${lines}`)        
     
 
-        console.log(`process.env['GITHUB_WORKSPACE'] :  ${process.env['GITHUB_WORKSPACE']}`)        
-        const output = fs.createWriteStream(process.env['GITHUB_WORKSPACE'] + '/package/' + packageName + "-release.zip")
+        if (!fs.existsSync(outputPath)) {            
+            fs.mkdirSync(outputPath, {recursive: true})
+        }
+                
+        const output = fs.createWriteStream(outputPath + packageName + "-release.zip")
         const archive = archiver('zip', {
             zlib: {level : 9 }
         })
         archive.pipe(output);
         archive.glob('**/*', {
-            cwd: process.env['GITHUB_REPOSITORY'] + "/package/",
+            cwd: outputPath,
             ignore: ignorefiles,
             dot: true,
         });
