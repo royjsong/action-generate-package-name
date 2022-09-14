@@ -52,12 +52,13 @@ async function run(): Promise<void> {
         // console.log(`.achiveignore :  ${lines}`)        
     
 
-        const packagePath = process.env['GITHUB_WORKSPACE'] + '/package/'
-        if (!fs.existsSync(packagePath)) {            
-            fs.mkdirSync(packagePath, {recursive: true})
-        }
-                
-        const output = fs.createWriteStream(packagePath + packageName + "-release.zip")
+        const packagePath = process.env['GITHUB_WORKSPACE']
+        // if (!fs.existsSync(packagePath)) {            
+        //     fs.mkdirSync(packagePath, {recursive: true})
+        // }
+        const filepath = packagePath + packageName + "-release.zip"
+        const output = fs.createWriteStream(filepath)
+        console.log(`filepath :  ${filepath}`)   
         const archive = archiver('zip', {
             zlib: {level : 9 }
         })

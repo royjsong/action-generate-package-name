@@ -16965,11 +16965,13 @@ function run() {
             // const lines: string[] = require('fs').readFileSync(archiveIgnorePath, 'utf-8').split('\n').filter(Boolean);
             // lines.push(packageName + ".zip")
             // console.log(`.achiveignore :  ${lines}`)        
-            const packagePath = process.env['GITHUB_WORKSPACE'] + '/package/';
-            if (!fs.existsSync(packagePath)) {
-                fs.mkdirSync(packagePath, { recursive: true });
-            }
-            const output = fs.createWriteStream(packagePath + packageName + "-release.zip");
+            const packagePath = process.env['GITHUB_WORKSPACE'];
+            // if (!fs.existsSync(packagePath)) {            
+            //     fs.mkdirSync(packagePath, {recursive: true})
+            // }
+            const filepath = packagePath + packageName + "-release.zip";
+            const output = fs.createWriteStream(filepath);
+            console.log(`filepath :  ${filepath}`);
             const archive = (0, archiver_1.default)('zip', {
                 zlib: { level: 9 }
             });
