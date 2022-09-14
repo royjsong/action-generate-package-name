@@ -16979,7 +16979,7 @@ function run() {
             archive.glob('**/*', {
                 cwd: process.env['GITHUB_WORKSPACE'],
                 // ignore: ignorefiles,
-                dot: true,
+                // dot: true,
             });
             archive.finalize();
             core.setOutput('packageName', packagePath);
