@@ -58,7 +58,7 @@ async function run(): Promise<void> {
         const filepath = packagePath + "/" + packageName + "-release.zip"
 
         var ignorefileArray: string[] = ignorefiles.split(",")
-        ignorefileArray.push("package/*")
+        ignorefileArray.push("package/**")
 
         const output = fs.createWriteStream(filepath)
         console.log(`filepath :  ${filepath}`)   
