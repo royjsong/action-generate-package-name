@@ -7,10 +7,10 @@ import archiver from 'archiver'
 async function run(): Promise<void> {
     try {
 
-        const fileName = core.getInput(Inputs.FILE_NAME, {required: true})
-        const gitSha = core.getInput(Inputs.GIT_SHA, {required: false})
+        const fileName = core.getInput(Inputs.FILE_NAME, {required: true})        
         const version = core.getInput(Inputs.VERSION, {required: false})
         const ignorefilesJson = core.getInput(Inputs.IGNORE_FILES_JSON, {required: false})
+        const gitSha = core.getInput(Inputs.GIT_SHA, {required: false})
 
         // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
         // try {
@@ -37,8 +37,7 @@ async function run(): Promise<void> {
 
         const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date
         console.log(`packageName : ${packageName}`)
-        core.setOutput("packageName", packageName)
-
+   
         // const archiveIgnorePath = process.env['GITHUB_WORKSPACE'] + '/.archiveignore'
         // try {
             // if (fs.existsSync(archiveIgnorePath)) {
@@ -53,25 +52,25 @@ async function run(): Promise<void> {
         // console.log(`.achiveignore :  ${lines}`)        
     
 
-        const outputPath = process.env['GITHUB_WORKSPACE'] + '/package/'
-        if (!fs.existsSync(outputPath)) {            
-            fs.mkdirSync(outputPath, {recursive: true})
+        const packagePath = process.env['GITHUB_WORKSPACE'] + '/package/'
+        if (!fs.existsSync(packagePath)) {            
+            fs.mkdirSync(packagePath, {recursive: true})
         }
                 
-        const output = fs.createWriteStream(outputPath + packageName + "-release.zip")
+        const output = fs.createWriteStream(packagePath + packageName + "-release.zip")
         const archive = archiver('zip', {
             zlib: {level : 9 }
         })
         archive.pipe(output);
         archive.glob('**/*', {
-            cwd: outputPath,
+            cwd: packagePath,
             ignore: ignorefiles,
             dot: true,
         });
         archive.finalize();
 
-        core.setOutput('PACKAGE_PATH', outputPath);
-        core.setOutput('PACKAGE_NAME', packageName);
+        core.setOutput('packageName', packagePath);
+        core.setOutput('packagePath', packageName);
     } catch (err) {
         core.setFailed((err as Error).message)
     }
