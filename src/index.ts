@@ -11,9 +11,7 @@ async function run(): Promise<void> {
         const gitSha = core.getInput(Inputs.GIT_SHA, {required: false})
         const version = core.getInput(Inputs.VERSION, {required: false})
         const ignorefilesJson = core.getInput(Inputs.IGNORE_FILES_JSON, {required: false})
-        const outputPath = core.getInput(Inputs.OUTPUT_PATH, {required: false})
 
- 
         // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
         // try {
             // if (fs.existsSync(versionFilePath)) {
@@ -36,7 +34,6 @@ async function run(): Promise<void> {
         console.log(`ignorefilesJson : ${ignorefilesJson}`)
         console.log(`ignorefiles : ${ignorefiles}`)
         console.log(`date : ${date}`)
-        console.log(`outputPath : ${outputPath}`)
 
         const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date
         console.log(`packageName : ${packageName}`)
@@ -56,6 +53,7 @@ async function run(): Promise<void> {
         // console.log(`.achiveignore :  ${lines}`)        
     
 
+        const outputPath = process.env['GITHUB_WORKSPACE'] + '/package/'
         if (!fs.existsSync(outputPath)) {            
             fs.mkdirSync(outputPath, {recursive: true})
         }
@@ -71,6 +69,9 @@ async function run(): Promise<void> {
             dot: true,
         });
         archive.finalize();
+
+        core.setOutput('PACKAGE_PATH', outputPath);
+        core.setOutput('PACKAGE_NAME', packageName);
     } catch (err) {
         core.setFailed((err as Error).message)
     }

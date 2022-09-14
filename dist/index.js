@@ -16932,7 +16932,6 @@ function run() {
             const gitSha = core.getInput(constants_1.Inputs.GIT_SHA, { required: false });
             const version = core.getInput(constants_1.Inputs.VERSION, { required: false });
             const ignorefilesJson = core.getInput(constants_1.Inputs.IGNORE_FILES_JSON, { required: false });
-            const outputPath = core.getInput(constants_1.Inputs.OUTPUT_PATH, { required: false });
             // const versionFilePath = process.env['GITHUB_WORKSPACE'] + "/version.json"
             // try {
             // if (fs.existsSync(versionFilePath)) {
@@ -16953,7 +16952,6 @@ function run() {
             console.log(`ignorefilesJson : ${ignorefilesJson}`);
             console.log(`ignorefiles : ${ignorefiles}`);
             console.log(`date : ${date}`);
-            console.log(`outputPath : ${outputPath}`);
             const packageName = fileName + "_" + version + "_" + gitSha.slice(0, 6) + "_" + date;
             console.log(`packageName : ${packageName}`);
             core.setOutput("packageName", packageName);
@@ -16968,6 +16966,7 @@ function run() {
             // const lines: string[] = require('fs').readFileSync(archiveIgnorePath, 'utf-8').split('\n').filter(Boolean);
             // lines.push(packageName + ".zip")
             // console.log(`.achiveignore :  ${lines}`)        
+            const outputPath = process.env['GITHUB_WORKSPACE'] + '/package/';
             if (!fs.existsSync(outputPath)) {
                 fs.mkdirSync(outputPath, { recursive: true });
             }
@@ -16982,6 +16981,8 @@ function run() {
                 dot: true,
             });
             archive.finalize();
+            core.setOutput('PACKAGE_PATH', outputPath);
+            core.setOutput('PACKAGE_NAME', packageName);
         }
         catch (err) {
             core.setFailed(err.message);
